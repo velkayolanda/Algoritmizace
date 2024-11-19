@@ -1,6 +1,3 @@
-// cviceni_console_app_3_10_2024.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <cmath>
 #include <time.h>
