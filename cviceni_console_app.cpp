@@ -4,8 +4,11 @@
 #include <iostream>
 #include <cmath>
 #include <time.h>
+#include <ctime>
 #include <iomanip>
 #include <vector>
+#include <chrono>
+#include <cfloat>
 #define PI 3.141592653 
 
 using namespace std;
@@ -1104,96 +1107,229 @@ using namespace std;
 //	return 0;
 //}
 
-class komplexni_cislo {
-private:
-	double realna_cast, imag_cast;
-	double modul;
+//class komplexni_cislo {
+//private:
+//	double realna_cast, imag_cast;
+//	double modul;
+//public:
+//	double rc();
+//	double ic();
+//	double m();
+//	komplexni_cislo(double r, double i);
+//	komplexni_cislo(double r);
+//	void nastav_hodnotu(double x, double y);
+//	void vypoctimodul();
+//	komplexni_cislo operator+(komplexni_cislo y);
+//	komplexni_cislo operator-(komplexni_cislo y);
+//	komplexni_cislo operator*(komplexni_cislo y);
+//	komplexni_cislo operator/(komplexni_cislo y);
+//	void UkazSe();
+//};
+//int main() {
+//	class komplexni_cislo a(8, 1);
+//	class komplexni_cislo b(4, -2);
+//	class komplexni_cislo c(0);
+//
+//	a.vypoctimodul();
+//	b.vypoctimodul();
+//	c = a / b;
+//	c.vypoctimodul();
+//	a.UkazSe();
+//	b.UkazSe();
+//	c.UkazSe();
+//	getchar();
+//	return 0;
+//}
+//
+//komplexni_cislo komplexni_cislo::operator/(komplexni_cislo y)
+//{
+//	komplexni_cislo vysledek(0, 0);
+//	double rc, ic, jme;
+//	jme = y.realna_cast * y.realna_cast + y.imag_cast * y.imag_cast;
+//	rc = (realna_cast * y.realna_cast + imag_cast * y.imag_cast) / jme;
+//	ic = (imag_cast * y.realna_cast - realna_cast * y.imag_cast) / jme;
+//	vysledek.nastav_hodnotu(rc, ic);
+//	return vysledek;
+//}
+//komplexni_cislo komplexni_cislo::operator*(komplexni_cislo y)
+//{
+//	komplexni_cislo vysledek(0, 0);
+//	vysledek.nastav_hodnotu(realna_cast * y.realna_cast - imag_cast * y.imag_cast, realna_cast * y.imag_cast + y.realna_cast * imag_cast);
+//	return vysledek;
+//}
+//komplexni_cislo komplexni_cislo::operator+(komplexni_cislo y)
+//{
+//	komplexni_cislo vysledek(0, 0);
+//	vysledek.nastav_hodnotu(realna_cast + y.realna_cast, imag_cast + y.imag_cast);
+//	return vysledek;
+//}
+//komplexni_cislo komplexni_cislo::operator-(komplexni_cislo y)
+//{
+//	komplexni_cislo vysledek(0, 0);
+//	vysledek.nastav_hodnotu(realna_cast - y.realna_cast, imag_cast - y.imag_cast);
+//	return vysledek;
+//}
+//void komplexni_cislo::nastav_hodnotu(double x, double y) {
+//	realna_cast = x;
+//	imag_cast = y;
+//	}
+//komplexni_cislo::komplexni_cislo(double r) {
+//	realna_cast = r;
+//	imag_cast = 0;
+//}
+//void komplexni_cislo::UkazSe() {
+//	cout << "\nRealna cast je " << realna_cast << endl;
+//	cout << "\nImaginarni cast je " << imag_cast << endl;
+//	cout << "\nModul je " << modul << endl;
+//}
+//komplexni_cislo::komplexni_cislo(double r, double i) {
+//	realna_cast = r;
+//	imag_cast = i;
+//}
+//void komplexni_cislo::vypoctimodul() {
+//	modul = sqrt(realna_cast * realna_cast + imag_cast * imag_cast);
+//}
+
+// ----------------------------------------------------------------------------
+//  Utorok 19.11.2024
+// ----------------------------------------------------------------------------
+// resil code z minula, protoze Jaegermeister delal drama.
+
+class Vozidla {
 public:
-	double rc();
-	double ic();
-	double m();
-	komplexni_cislo(double r, double i);
-	komplexni_cislo(double r);
-	void nastav_hodnotu(double x, double y);
-	void vypoctimodul();
-	komplexni_cislo operator+(komplexni_cislo y);
-	komplexni_cislo operator-(komplexni_cislo y);
-	komplexni_cislo operator*(komplexni_cislo y);
-	komplexni_cislo operator/(komplexni_cislo y);
-	void UkazSe();
+    string Znacka;
+    string Typ;
+    string Kategorie;
+    int Objem;
+    string TypMotoru;
+    string RegZnacka;
+    int RokVyroby;
+    float spotreba;
+
+    float UkazSpotrebu() { return spotreba; }
+    int UkazObjem() { return Objem; }
+    string UkazZnacku() { return Znacka; }
+    string UkazTypVoz() { return Typ; }
+    int UkazRokVyroby() { return RokVyroby; }
+    void Nastavit(string Z, string T, string K, int Ob, string Typm, string Reg, int R, float s) {
+        Znacka = Z;
+        Typ = T;
+        Kategorie = K;
+        Objem = Ob;
+        TypMotoru = Typm;
+        RegZnacka = Reg;
+        RokVyroby = R;
+        spotreba = s;
+    }
+    int VekVozidla() {
+        time_t now = time(0);
+        tm gmtm;
+        gmtime_s(&gmtm, &now);
+        int aktrok = gmtm.tm_year + 1900;
+        return aktrok - RokVyroby; 
+    }
+    string UkazTyp() { return TypMotoru; }
 };
+
+void UkazCas() {
+    time_t now = time(0);
+    tm gmtm;
+    gmtime_s(&gmtm, &now);
+    cout << "\n" << "Rok: " << 1900 + gmtm.tm_year << endl;
+    cout << "Mesic: " << 1 + gmtm.tm_mon << endl;
+    cout << "Den: " << gmtm.tm_mday << endl;
+    cout << "Cas: " << 1 + gmtm.tm_hour << ":" << gmtm.tm_min << ":" << gmtm.tm_sec << endl;
+}
+
 int main() {
-	class komplexni_cislo a(8, 3);
-	class komplexni_cislo b(4, -3);
-	class komplexni_cislo c(0);
+    class Vozidla* A = new Vozidla[6];
+    A[0].Nastavit("Skoda", "Superb", "O", 1996, "N", "2BL1524", 2013, 6.5);
+    A[1].Nastavit("Audi", "A6", "O", 1998, "N", "1BL1524", 2014, 7.2);
+    A[2].Nastavit("BMW", "320d", "O", 2290, "N", "3BL1524", 2017, 5.9);
+    A[3].Nastavit("Ford", "Mondeo", "O", 1996, "B", "6BL1524", 2018, 8.3);
+    A[4].Nastavit("Kia", "Sorento", "O", 1997, "B", "5BL1524", 2017, 9.1);
+    A[5].Nastavit("Hyundai", "Tucson", "O", 1993, "N", "4BL1524", 2014, 6.7);
 
-	a.vypoctimodul();
-	b.vypoctimodul();
-	c = a / b;
-	c.vypoctimodul();
-	a.UkazSe();
-	b.UkazSe();
-	c.UkazSe();
-	getchar();
-	return 0;
-}
+    int maxObjem = A[0].UkazObjem();
+    for (int i = 1; i < 6; i++) {
+        if (A[i].UkazObjem() > maxObjem) {
+            maxObjem = A[i].UkazObjem();
+        }
+    }
+    cout << "Max objem je: " << maxObjem << " ccm u techto vozidel:" << endl;
+    for (int i = 0; i < 6; i++) {
+        if (A[i].UkazObjem() == maxObjem) {
+            cout << A[i].UkazZnacku() << "\t" << A[i].UkazTypVoz() << endl;
+        }
+    }
 
-komplexni_cislo komplexni_cislo::operator/(komplexni_cislo y)
-{
-	komplexni_cislo vysledek(0, 0);
-	double rc, ic, jme;
-	jme = y.realna_cast * y.realna_cast + y.imag_cast * y.imag_cast;
-	rc = (realna_cast * y.realna_cast + imag_cast * y.imag_cast) / jme;
-	ic = (imag_cast * y.realna_cast - realna_cast * y.imag_cast) / jme;
-	vysledek.nastav_hodnotu(rc, ic);
-	return vysledek;
-}
-komplexni_cislo komplexni_cislo::operator*(komplexni_cislo y)
-{
-	komplexni_cislo vysledek(0, 0);
-	vysledek.nastav_hodnotu(realna_cast * y.realna_cast - imag_cast * y.imag_cast, realna_cast * y.imag_cast + y.realna_cast * imag_cast);
-	return vysledek;
-}
-komplexni_cislo komplexni_cislo::operator+(komplexni_cislo y)
-{
-	komplexni_cislo vysledek(0, 0);
-	vysledek.nastav_hodnotu(realna_cast + y.realna_cast, imag_cast + y.imag_cast);
-	return vysledek;
-}
-komplexni_cislo komplexni_cislo::operator-(komplexni_cislo y)
-{
-	komplexni_cislo vysledek(0, 0);
-	vysledek.nastav_hodnotu(realna_cast - y.realna_cast, imag_cast - y.imag_cast);
-	return vysledek;
-}
-void komplexni_cislo::nastav_hodnotu(double x, double y) {
-	realna_cast = x;
-	imag_cast = y;
-	}
-komplexni_cislo::komplexni_cislo(double r) {
-	realna_cast = r;
-	imag_cast = 0;
-}
-void komplexni_cislo::UkazSe() {
-	cout << "\nRealna cast je " << realna_cast << endl;
-	cout << "\nImaginarni cast je " << imag_cast << endl;
-	cout << "\nModul je " << modul << endl;
-}
-komplexni_cislo::komplexni_cislo(double r, double i) {
-	realna_cast = r;
-	imag_cast = i;
-}
-void komplexni_cislo::vypoctimodul() {
-	modul = sqrt(realna_cast * realna_cast + imag_cast * imag_cast);
-}
+    float prumer = 0;
+    for (int i = 0; i < 6; i++) {
+        prumer += A[i].VekVozidla();
+    }
+    prumer = prumer / 6;
+    cout << "Prumer stari vsech vozidel je: " << prumer << endl;
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+    int maxvek = A[0].VekVozidla();
+    for (int i = 1; i < 6; i++) {
+        if (A[i].VekVozidla() > maxvek)
+            maxvek = A[i].VekVozidla();
+    }
+    cout << "Nejstarsi auto ma: " << maxvek << " let" << endl;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+    for (int i = 0; i < 6; i++) { 
+        if (A[i].VekVozidla() == maxvek) {
+            cout << A[i].UkazZnacku() << "\t" << A[i].UkazTypVoz() << endl;
+        }
+    }
+
+    int pocetn = 0;
+    for (int i = 0; i < 6; i++) {
+        if (A[i].UkazTyp() == "N") {
+            pocetn++;
+        }
+    }
+    cout << "Pocet naftovych vozu je: " << pocetn << endl;
+
+    int pocetb = 0;
+    for (int i = 0; i < 6; i++) {
+        if (A[i].UkazTyp() == "B") {
+            pocetb++;
+        }
+    }
+    cout << "Pocet benzinovych vozu je: " << pocetb << endl;
+
+    float nejmensi_spotreba_benzin = FLT_MAX;
+    for (int i = 0; i < 6; i++) {
+        if (A[i].UkazTyp() == "B") {
+            if (A[i].spotreba < nejmensi_spotreba_benzin) {
+                nejmensi_spotreba_benzin = A[i].spotreba;
+            }
+        }
+    }
+    cout << "Nejmensi spotreba mezi benzinovymi vozy je: " << nejmensi_spotreba_benzin << " l/100km" << endl;
+    for (int i = 0; i < 6; i++) {
+        if (A[i].spotreba == nejmensi_spotreba_benzin) {
+            cout <<"A je to: " << A[i].UkazZnacku() << "\t" << A[i].UkazTypVoz() << endl;
+        }
+    }
+
+    float nejmensi_spotreba_nafta = FLT_MAX;
+    for (int i = 0; i < 6; i++) {
+        if (A[i].UkazTyp() == "N") {
+            if (A[i].spotreba < nejmensi_spotreba_nafta) {
+                nejmensi_spotreba_nafta = A[i].spotreba;
+            }
+        }
+    }
+    cout << "Nejmensi spotreba mezi nafta vozy je: " << nejmensi_spotreba_nafta << " l/100km" << endl;
+    for (int i = 0; i < 6; i++) {
+        if (A[i].spotreba == nejmensi_spotreba_nafta) {
+            cout << "A je to: " << A[i].UkazZnacku() << "\t" << A[i].UkazTypVoz() << endl;
+        }
+    }
+
+
+    delete[] A;
+    return 0;
+}
