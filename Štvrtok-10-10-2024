@@ -1,0 +1,55 @@
+#include <iostream>
+#include <cmath>
+#include <time.h>
+#include <ctime>
+#include <iomanip>
+#include <vector>
+#include <chrono>
+#include <cfloat>
+#define PI 3.141592653 
+
+using namespace std;
+// ----------------------------------------------------------------------------
+//  Štvrtok 10.10.2024
+// ----------------------------------------------------------------------------
+int JeTrojuhelnik(float a, float b, float c) {
+    int v = 1;
+    if ((a + b) < c || (a + c) < c || (b + c) < a)
+        v = 0;
+    return v;
+}
+int JeTrouhelnik2(float a, float b, float c){
+    bool vysledek2 = true;
+    if ((a + b) < c || (a + c) < c || (b + c) < a)
+        vysledek2 = false;
+    return vysledek2;
+}
+int trouhelniky() {
+    float x, y, z;
+    int vysledek;
+    bool vysledek2;
+    printf("zadejte 3 cisla:");
+    scanf_s("%f", &x);
+    scanf_s("%f", &y);
+    scanf_s("%f", &z);
+    vysledek = JeTrojuhelnik(x, y, z);
+    vysledek2 = JeTrouhelnik2(x, y, z);
+    printf("Rozhodnuti: %s", (vysledek) ? "JE" : "NENI");
+    printf("Rozhodnuti: %s", (vysledek2) ? "JE" : "NENI");
+    fflush(stdin);
+    getchar();
+    return 0;
+}
+int matika() {
+    int stupne;
+    double sinus, cosinus, tangens;
+    printf("stupne sinus cosinus tangens\n");
+    for (stupne = 0; stupne < 190; stupne += 10) {
+        sinus = sin(stupne * 3.14 / 180);
+        cosinus = cos(stupne * 3.14 / 180);
+        tangens = sinus / cosinus;
+        printf("%3d     %5.3lf  %6.3lf  %7.3lf\n", stupne, sinus, cosinus, tangens);
+    }
+    getchar();
+    return 0;
+}
